@@ -6,6 +6,8 @@
 # Web: http://www.yooliang.com/
 # Date: 2015/7/12.
 
+import json
+import os
 from argeweb import Controller, scaffold, route_menu, Fields, route_with, route
 from argeweb.components.pagination import Pagination
 from argeweb.components.search import Search
@@ -32,23 +34,23 @@ class FirebaseAuthentication(Controller):
 
     @route
     def sign_in(self):
-        import json
-        self.context["data"] = {
-            "msg": "success"
-        }
         self.meta.change_view("json")
+        self.context["data"] = {"msg": "unauthorized"}
         try:
             user_object = json.loads(str(self.request.body), encoding="utf-8")
+            record = self.meta.Model.find_by_name(self.namespace)
+            if record is None:
+                raise
+            if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev') is False:
+                from ..firebase_helper import verify_auth_token
+                claims = verify_auth_token(self.request, record.project_id)
+                if not claims:
+                    raise
         except:
-            self.context["data"] = {
-                "msg": "failure"
-            }
             self.session["application_user_key"] = None
             return
         user = ApplicationUserModel.find_by_properties(firebase_uid=user_object["uid"])
-        self.context["data"] = {
-            "msg": "user fined"
-        }
+        self.context["data"] = {"msg": "user fined"}
         if user is None:
             from plugins.application_user.models.application_user_role_model import ApplicationUserRoleModel as role
             user = ApplicationUserModel()
@@ -59,9 +61,7 @@ class FirebaseAuthentication(Controller):
             user.password = user_object["apiKey"] + user_object["uid"]
             user.put()
             user.bycrypt_password_for_add()
-            self.context["data"] = {
-                "msg": "user create"
-            }
+            self.context["data"] = {"msg": "user create"}
         user.name = user_object["displayName"]
         user.avatar = user_object["photoURL"]
         user.email = user_object["email"]

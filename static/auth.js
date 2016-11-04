@@ -1,30 +1,37 @@
 if (typeof firebase !== "undefined" && typeof firebaseui !== "undefined"){
     (function (firebase, firebaseui) {
-        var firebase_currentUid = "";
+        firebase.userData = {
+            "currentUid": "",
+            "currentIdToken ": ""
+        };
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
         firebase.auth().onAuthStateChanged(function (user) {
-            if (user && user.uid == firebase_currentUid) return;
+            if (user && user.uid == firebase.userData.currentUid) return;
             document.getElementById('firebase_auth_loading').style.display = 'none';
             document.getElementById('firebase_auth_loaded').style.display = 'block';
             user ? handleSignedInUser(user) : handleSignedOutUser();
         });
 
-        firebase.sendUserInfo = function (user){
+        firebase.sendUserInfo = function (user, userIdToken){
             var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
             xmlhttp.open("POST", "/firebase_authentication/sign_in");
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.setRequestHeader("Authorization", 'Bearer ' + userIdToken);
             xmlhttp.send(JSON.stringify(user));
         };
 
         var handleSignedInUser = function (user) {
-            document.body.className = document.body.className.replace(" auth_signed_out", "").replace(" auth_signed_in", "").replace(" firebase_auth", "");
-            document.body.className += " firebase_auth auth_signed_in"; firebase.sendUserInfo(user);
-            var s = document.getElementById('firebase_config').getAttribute('data-callback-signed-in');
-            if (typeof window[s] === "function") {
-                return window[s](user);
-            } else {
-                return false;
-            }
+            user.getToken().then(function (idToken) {
+                firebase.userData.currentIdToken = idToken;
+                document.body.className = document.body.className.replace(" auth_signed_out", "").replace(" auth_signed_in", "").replace(" firebase_auth", "");
+                document.body.className += " firebase_auth auth_signed_in"; firebase.sendUserInfo(user, idToken);
+                var s = document.getElementById('firebase_config').getAttribute('data-callback-signed-in');
+                if (typeof window[s] === "function") {
+                    return window[s](user);
+                } else {
+                    return false;
+                }
+            });
         };
 
         var handleSignedOutUser = function () {
