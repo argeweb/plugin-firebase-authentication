@@ -23,7 +23,7 @@ class FirebaseAuthentication(Controller):
         display_properties_in_list = ("name", "title", "is_enable", "category")
 
     @route
-    @route_menu(list_name=u"backend", text=u"Firebase 驗証設定", sort=9800, group=u"帳號管理")
+    @route_menu(list_name=u"backend", text=u"Firebase 驗証設定", sort=9903, group=u"系統設定")
     def admin_config(self):
         record = self.meta.Model.find_by_name(self.namespace)
         if record is None:
