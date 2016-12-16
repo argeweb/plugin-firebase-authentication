@@ -9,16 +9,16 @@
 from argeweb import datastore
 from .models.firebase_authentication_model import FirebaseAuthenticationModel
 
-datastore.register("firebase_config", FirebaseAuthenticationModel.find_by_name)
+datastore.register('firebase_config', FirebaseAuthenticationModel.find_by_name)
 
 plugins_helper = {
-    "title": u"Firebase 驗証",
-    "desc": u"透過 Firebase 來進行使用者身份的驗証",
-    "controllers": {
-        "firebase_authentication": {
-            "group": u"Firebase 驗証",
-            "actions": [
-                {"action": "config", "name": u"驗証設定"},
+    'title': u'Firebase 驗証',
+    'desc': u'透過 Firebase 來進行使用者身份的驗証',
+    'controllers': {
+        'firebase_authentication': {
+            'group': u'Firebase 驗証',
+            'actions': [
+                {'action': 'config', 'name': u'驗証設定'},
             ]
         }
     }
