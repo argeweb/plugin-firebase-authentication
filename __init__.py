@@ -9,7 +9,7 @@
 from argeweb import datastore
 from .models.firebase_authentication_model import FirebaseAuthenticationModel
 
-datastore.register('firebase_config', FirebaseAuthenticationModel.find_by_name)
+datastore.register('firebase_config', FirebaseAuthenticationModel.get_record)
 
 plugins_helper = {
     'title': u'Firebase 驗証',

@@ -21,14 +21,14 @@ class FirebaseAuthentication(Controller):
 
     class Scaffold:
         display_properties_in_list = ('name', 'title', 'is_enable', 'category')
+        hidden_properties_in_edit = ('name',)
 
     @route
     @route_menu(list_name=u'backend', text=u'Firebase 驗証設定', sort=9903, group=u'系統設定')
     def admin_config(self):
-        record = self.meta.Model.find_by_name(self.namespace)
+        record = self.meta.Model.find_by_name('firebase_config')
         if record is None:
             record = self.meta.Model()
-            record.name = self.namespace
             record.put()
         return scaffold.edit(self, record.key)
 
@@ -38,7 +38,7 @@ class FirebaseAuthentication(Controller):
         self.context['data'] = {'msg': 'unauthorized'}
         try:
             user_object = json.loads(str(self.request.body), encoding='utf-8')
-            record = self.meta.Model.find_by_name(self.namespace)
+            record = self.meta.Model.find_by_name('firebase_config')
             if record is None:
                 raise
             if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev') is False:
