@@ -6,10 +6,10 @@
 # Web: http://www.yooliang.com/
 # Date: 2016/07/08.
 
-from argeweb import datastore
+from argeweb import ViewDatastore
 from .models.firebase_authentication_model import FirebaseAuthenticationModel
 
-datastore.register('firebase_config', FirebaseAuthenticationModel.get_record)
+ViewDatastore.register('firebase_config', FirebaseAuthenticationModel.get_record)
 
 plugins_helper = {
     'title': u'Firebase 驗証',
