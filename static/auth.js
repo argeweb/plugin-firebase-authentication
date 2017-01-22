@@ -16,7 +16,7 @@ if (typeof firebase !== "undefined" && typeof firebaseui !== "undefined"){
         firebase.sendUserInfo = function (user, userIdToken){
             if (firebase.lock) return;
             var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-            xmlhttp.open("POST", "/firebase_authentication/sign_in");
+            xmlhttp.open("POST", "/firebase_authentication/firebase_authentication/sign_in");
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xmlhttp.setRequestHeader("Authorization", 'Bearer ' + userIdToken);
             xmlhttp.onreadystatechange = function() { if (xmlhttp.readyState == 4) firebase.lock = false; };
