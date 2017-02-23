@@ -60,7 +60,7 @@ class FirebaseAuthentication(Controller):
             user.account = user_object['email']
             user.password = user_object['apiKey'] + user_object['uid']
             user.put()
-            user.bycrypt_password_for_add()
+            user.bycrypt_password()
             self.context['data'] = {'msg': 'user create'}
         user.name = user_object['displayName']
         user.avatar = user_object['photoURL']
