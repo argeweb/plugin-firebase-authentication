@@ -45,7 +45,7 @@ class FirebaseAuthentication(Controller):
                 from ..firebase_helper import verify_auth_token
                 claims = verify_auth_token(self.request, record.project_id)
                 if not claims:
-                    raise
+                    raise Exception('not claims')
         except:
             self.session['application_user_key'] = None
             return
