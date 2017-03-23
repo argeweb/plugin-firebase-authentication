@@ -13,7 +13,7 @@ from plugins.application_user.models.application_user_role_model import Applicat
 
 
 class FirebaseAuthenticationModel(BasicModel):
-    name = Fields.StringProperty(verbose_name=u'系統編號', default=u'firebase_config')
+    name = Fields.StringProperty(verbose_name=u'識別名稱', default=u'firebase_config')
     project_id = Fields.StringProperty(verbose_name=u'Firebase Project ID')
 
     initialization_snippet = Fields.TextProperty(verbose_name=u'初始化的 JS 語法片斷')

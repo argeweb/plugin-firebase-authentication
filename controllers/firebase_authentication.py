@@ -17,7 +17,7 @@ from ..models.firebase_authentication_model import ApplicationUserModel
 class FirebaseAuthentication(Controller):
     class Meta:
         components = (scaffold.Scaffolding, Pagination, Search)
-        pagination_limit = 10
+        pagination_limit = 50
 
     class Scaffold:
         display_in_list = ('name', 'title', 'is_enable', 'category')
