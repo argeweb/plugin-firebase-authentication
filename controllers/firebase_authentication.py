@@ -65,7 +65,7 @@ class FirebaseAuthentication(Controller):
             if len(roles) == 0:
                 roles = ['user']
             for item in roles:
-                UserRoleModel.set_role(user, item.strap())
+                UserRoleModel.set_role(user, item.strip())
             self.context['data'] = {'msg': 'user create'}
         user.name = user_object['displayName']
         user.avatar = user_object['photoURL']
