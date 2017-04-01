@@ -9,7 +9,7 @@
 from argeweb import BasicModel
 from argeweb import Fields
 from plugins.application_user.models.application_user_model import ApplicationUserModel as BaseUserModel
-from plugins.application_user.models.application_user_role_model import ApplicationUserRoleModel as BaseUoleModel
+from plugins.application_user.models.role_model import RoleModel as BaseUoleModel
 
 
 class FirebaseAuthenticationModel(BasicModel):
@@ -22,6 +22,7 @@ class FirebaseAuthenticationModel(BasicModel):
         'popup', 'redirect'
     ))
     sing_in_success_url = Fields.StringProperty(verbose_name=u'成功登入後的網址')
+    first_login_roles = Fields.StringProperty(verbose_name=u'首次登入後的角色', default=u'user')
     terms_of_service_url = Fields.StringProperty(verbose_name=u'服務條款的網址')
     custom_css = Fields.BooleanProperty(default=False, verbose_name=u'自行訂制CSS樣式')
     use_google_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Google 登入按鈕')
@@ -39,13 +40,13 @@ class FirebaseAuthenticationModel(BasicModel):
     def get_record(cls, name):
         return cls.query(cls.name==name)
 
+
 class ApplicationUserModel(BaseUserModel):
     name = Fields.StringProperty(required=True, verbose_name=u'名稱')
     account = Fields.StringProperty(required=True, verbose_name=u'帳號')
     password = Fields.StringProperty(required=True, verbose_name=u'密碼')
     avatar = Fields.ImageProperty(verbose_name=u'頭像')
     is_enable = Fields.BooleanProperty(default=True, verbose_name=u'啟用')
-    role = Fields.CategoryProperty(kind=BaseUoleModel, required=True, verbose_name=u'角色')
 
     firebase_uid = Fields.StringProperty()
     email = Fields.StringProperty()

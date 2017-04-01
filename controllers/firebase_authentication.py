@@ -17,7 +17,6 @@ from ..models.firebase_authentication_model import ApplicationUserModel
 class FirebaseAuthentication(Controller):
     class Meta:
         components = (scaffold.Scaffolding, Pagination, Search)
-        pagination_limit = 50
 
     class Scaffold:
         display_in_list = ('name', 'title', 'is_enable', 'category')
@@ -51,16 +50,22 @@ class FirebaseAuthentication(Controller):
             return
         user = ApplicationUserModel.find_by_properties(firebase_uid=user_object['uid'])
         self.context['data'] = {'msg': 'user fined'}
+
         if user is None:
-            from plugins.application_user.models.application_user_role_model import ApplicationUserRoleModel as role
+            from plugins.application_user.models.user_role_model import UserRoleModel
             user = ApplicationUserModel()
             user.name = user_object['displayName']
             user.firebase_uid = user_object['uid']
-            user.role = role.find_lowest_level().key
+            # user.role = role.find_lowest_level().key
             user.account = user_object['email']
             user.password = user_object['apiKey'] + user_object['uid']
             user.put()
             user.bycrypt_password()
+            roles = record.first_login_roles.split(',')
+            if len(roles) == 0:
+                roles = ['user']
+            for item in roles:
+                UserRoleModel.set_role(user, item.strap())
             self.context['data'] = {'msg': 'user create'}
         user.name = user_object['displayName']
         user.avatar = user_object['photoURL']
