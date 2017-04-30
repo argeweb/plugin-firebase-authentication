@@ -19,6 +19,7 @@ plugins_helper = {
             'group': u'Firebase 驗証',
             'actions': [
                 {'action': 'config', 'name': u'驗証設定'},
+                {'action': 'plugins_check', 'name': u'啟用停用模組'},
             ]
         }
     }
