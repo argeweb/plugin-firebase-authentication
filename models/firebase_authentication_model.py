@@ -26,9 +26,9 @@ class FirebaseAuthenticationModel(BasicModel):
     terms_of_service_url = Fields.StringProperty(verbose_name=u'服務條款的網址')
     custom_css = Fields.BooleanProperty(default=False, verbose_name=u'自行訂制CSS樣式')
     use_google_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Google 登入按鈕')
-    google_scopes = Fields.StringProperty(default='["https://www.googleapis.com/auth/plus.login"]', verbose_name=u'Google 存取範圍 (scopes)')
+    google_scopes = Fields.StringProperty(default='[\'https://www.googleapis.com/auth/plus.login\']', verbose_name=u'Google 存取範圍 (scopes)')
     use_facebook_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Facebook 登入按鈕')
-    facebook_scopes = Fields.StringProperty(default='["public_profile", "email", "user_likes", "user_friends"]', verbose_name=u'Facebook 存取範圍 (scopes)')
+    facebook_scopes = Fields.StringProperty(default='[\'public_profile\', \'email\', \'user_likes\', \'user_friends\']', verbose_name=u'Facebook 存取範圍 (scopes)')
     use_twitter_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Twitter 登入按鈕')
     use_github_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Github 登入按鈕')
     use_email_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Mail 登入按鈕')
@@ -42,13 +42,6 @@ class FirebaseAuthenticationModel(BasicModel):
 
 
 class ApplicationUserModel(BaseUserModel):
-    name = Fields.StringProperty(required=True, verbose_name=u'名稱')
-    account = Fields.StringProperty(required=True, verbose_name=u'帳號')
-    password = Fields.StringProperty(required=True, verbose_name=u'密碼')
-    avatar = Fields.ImageProperty(verbose_name=u'頭像')
-    is_enable = Fields.BooleanProperty(default=True, verbose_name=u'啟用')
-
     firebase_uid = Fields.StringProperty()
-    email = Fields.StringProperty()
     emailVerified = Fields.BooleanProperty(default=False)
     isAnonymous = Fields.BooleanProperty(default=True)

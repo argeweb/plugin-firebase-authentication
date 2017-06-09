@@ -15,9 +15,6 @@ from ..models.firebase_authentication_model import ApplicationUserModel
 
 
 class FirebaseAuthentication(Controller):
-    class Meta:
-        components = (scaffold.Scaffolding, Pagination, Search)
-
     class Scaffold:
         display_in_list = ('name', 'title', 'is_enable', 'category')
         hidden_in_form = ('name',)
@@ -56,7 +53,6 @@ class FirebaseAuthentication(Controller):
             user = ApplicationUserModel()
             user.name = user_object['displayName']
             user.firebase_uid = user_object['uid']
-            # user.role = role.find_lowest_level().key
             user.account = user_object['email']
             user.password = user_object['apiKey'] + user_object['uid']
             user.put()

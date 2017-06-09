@@ -42,13 +42,14 @@ if (typeof firebase !== "undefined" && typeof firebaseui !== "undefined"){
             document.body.className = document.body.className.replace(" auth_signed_out", "").replace(" auth_signed_in", "").replace(" firebase_auth", "");
             document.body.className += " firebase_auth auth_signed_out";
             var uiConfig = {};
-            eval("uiConfig = " + document.getElementById('firebase_config').textContent);
+            eval("uiConfig = " + document.getElementById('firebase_config').getAttribute('data-config'));
             ui.start('#firebaseui-auth-container', uiConfig);
             var s = document.getElementById('firebase_config').getAttribute('data-callback-signed-out');
             if (typeof window[s] === "function") {
                 window[s]();
             }
         };
+
         document.addEventListener("DOMContentLoaded", function(event) {
             [].forEach.call(document.getElementsByClassName("btn_firebase_signout"), function (el) {
                 el.onclick = function (callback, errorCallback){
