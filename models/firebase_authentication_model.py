@@ -24,17 +24,17 @@ class FirebaseAuthenticationModel(BasicModel):
     sing_in_success_url = Fields.StringProperty(verbose_name=u'成功登入後的網址')
     first_login_roles = Fields.StringProperty(verbose_name=u'首次登入後的角色', default=u'user')
     terms_of_service_url = Fields.StringProperty(verbose_name=u'服務條款的網址')
-    custom_css = Fields.BooleanProperty(default=False, verbose_name=u'自行訂制CSS樣式')
-    use_google_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Google 登入按鈕')
-    google_scopes = Fields.StringProperty(default='[\'https://www.googleapis.com/auth/plus.login\']', verbose_name=u'Google 存取範圍 (scopes)')
-    use_facebook_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Facebook 登入按鈕')
-    facebook_scopes = Fields.StringProperty(default='[\'public_profile\', \'email\', \'user_likes\', \'user_friends\']', verbose_name=u'Facebook 存取範圍 (scopes)')
-    use_twitter_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Twitter 登入按鈕')
-    use_github_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Github 登入按鈕')
-    use_email_auth_provider = Fields.BooleanProperty(default=True, verbose_name=u'顯示 Mail 登入按鈕')
+    custom_css = Fields.BooleanProperty(verbose_name=u'自行訂制CSS樣式', default=False)
+    use_google_auth_provider = Fields.BooleanProperty(verbose_name=u'顯示 Google 登入按鈕', default=True)
+    google_scopes = Fields.StringProperty(verbose_name=u'Google 存取範圍 (scopes)', default='[\'https://www.googleapis.com/auth/plus.login\']')
+    use_facebook_auth_provider = Fields.BooleanProperty(verbose_name=u'顯示 Facebook 登入按鈕', default=True)
+    facebook_scopes = Fields.StringProperty(verbose_name=u'Facebook 存取範圍 (scopes)', default='[\'public_profile\', \'email\', \'user_likes\', \'user_friends\']')
+    use_twitter_auth_provider = Fields.BooleanProperty(verbose_name=u'顯示 Twitter 登入按鈕', default=True)
+    use_github_auth_provider = Fields.BooleanProperty(verbose_name=u'顯示 Github 登入按鈕', default=True)
+    use_email_auth_provider = Fields.BooleanProperty(verbose_name=u'顯示 Mail 登入按鈕', default=True)
 
-    signed_in_callback = Fields.StringProperty(default=u'', verbose_name=u'登入後所呼叫的 function')
-    signed_out_callback = Fields.StringProperty(default=u'', verbose_name=u'登出後所呼叫的 function')
+    signed_in_callback = Fields.StringProperty(verbose_name=u'登入後所呼叫的 function', default=u'')
+    signed_out_callback = Fields.StringProperty(verbose_name=u'登出後所呼叫的 function', default=u'')
 
     @classmethod
     def get_record(cls, name):

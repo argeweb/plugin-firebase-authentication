@@ -43,6 +43,12 @@ if (typeof firebase !== "undefined" && typeof firebaseui !== "undefined"){
             document.body.className += " firebase_auth auth_signed_out";
             var uiConfig = {};
             eval("uiConfig = " + document.getElementById('firebase_config').getAttribute('data-config'));
+            if (document.getElementById('firebaseui-auth-container') == null){
+                var div = document.createElement('div');
+                div.innerHTML = '<div id="firebaseui-auth-container" style="display: none;"></div>';
+                document.body.appendChild(div.children[0]);
+            }
+
             ui.start('#firebaseui-auth-container', uiConfig);
             var s = document.getElementById('firebase_config').getAttribute('data-callback-signed-out');
             if (typeof window[s] === "function") {

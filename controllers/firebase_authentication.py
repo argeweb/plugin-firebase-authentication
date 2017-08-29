@@ -8,21 +8,18 @@
 
 import json
 import os
-from argeweb import Controller, scaffold, route_menu, Fields, route_with, route
-from argeweb.components.pagination import Pagination
-from argeweb.components.search import Search
+from argeweb import Controller, scaffold, route_menu, route
 from ..models.firebase_authentication_model import ApplicationUserModel
 
 
 class FirebaseAuthentication(Controller):
     class Scaffold:
-        display_in_list = ('name', 'title', 'is_enable', 'category')
-        hidden_in_form = ('name',)
+        display_in_list = ['name', 'title', 'is_enable', 'category']
 
     @route
-    @route_menu(list_name=u'backend', text=u'Firebase 驗証設定', sort=9903, group=u'系統設定')
+    @route_menu(list_name=u'system', group=u'帳號管理', text=u'Firebase 驗証設定', sort=9903)
     def admin_config(self):
-        record = self.meta.Model.find_by_name('firebase_config')
+        record = self.meta.Model.get_by_name('firebase_config')
         if record is None:
             record = self.meta.Model()
             record.put()
@@ -34,7 +31,7 @@ class FirebaseAuthentication(Controller):
         self.context['data'] = {'msg': 'unauthorized'}
         try:
             user_object = json.loads(str(self.request.body), encoding='utf-8')
-            record = self.meta.Model.find_by_name('firebase_config')
+            record = self.meta.Model.get_by_name('firebase_config')
             if record is None:
                 raise
             if os.environ.get('SERVER_SOFTWARE', '').startswith('Dev') is False:
@@ -45,7 +42,7 @@ class FirebaseAuthentication(Controller):
         except:
             self.session['application_user_key'] = None
             return
-        user = ApplicationUserModel.find_by_properties(firebase_uid=user_object['uid'])
+        user = ApplicationUserModel.find_by_properties(firebase_uid=user_object['uid']).get()
         self.context['data'] = {'msg': 'user fined'}
 
         if user is None:
